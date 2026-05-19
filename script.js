@@ -427,7 +427,7 @@ function renderQuestion(resetTimer) {
   elements.questionSkill.textContent = question.skill;
   elements.questionTitle.textContent = question.title;
   elements.questionPassage.textContent = question.passage;
-  elements.questionPassage.classList.remove("is-visible");
+  elements.questionPassage.classList.add("is-visible");
   elements.answerList.innerHTML = "";
 
   question.choices.forEach((choice, index) => {
@@ -482,10 +482,6 @@ function updateTimer(totalSeconds) {
   elements.timerFill.style.width = `${percent}%`;
   elements.timerBox.classList.toggle("is-warning", remaining <= 15 && remaining > 7);
   elements.timerBox.classList.toggle("is-danger", remaining <= 7);
-
-  if (percent <= 40) {
-    elements.questionPassage.classList.add("is-visible");
-  }
 }
 
 function handleTimeout() {
