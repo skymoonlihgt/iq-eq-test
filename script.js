@@ -351,6 +351,8 @@ function setView(viewName) {
   elements.loadingView.hidden = viewName !== "loading";
   elements.timerBox.hidden = viewName !== "question";
   elements.homeBtn.hidden = viewName === "start" || viewName === "loading" || viewName === "diagnose";
+  const shell = document.querySelector('.app-shell');
+  shell?.classList.toggle("test-mode", ["diagnose", "question", "loading", "result"].includes(viewName));
 }
 
 function renderSelect(select, options, selectedValue) {

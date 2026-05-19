@@ -50,6 +50,18 @@ button {
   padding: 12px 20px 20px;
 }
 
+.app-shell.test-mode {
+  grid-template-columns: 1fr;
+}
+
+.app-shell.test-mode .insight-panel {
+  display: none;
+}
+
+.app-shell.test-mode .test-panel {
+  grid-column: 1 / -1;
+}
+
 .insight-panel,
 .test-panel {
   border: 1px solid rgba(32, 33, 36, 0.08);
@@ -654,6 +666,14 @@ h1 {
   .app-shell {
     grid-template-columns: 1fr;
     padding: 16px;
+  }
+
+  .app-shell.test-mode .insight-panel {
+    display: none;
+  }
+
+  .app-shell.test-mode .test-panel {
+    grid-column: 1 / -1;
   }
 
   .insight-panel {
