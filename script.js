@@ -426,8 +426,8 @@ function renderQuestion(resetTimer) {
   elements.questionType.textContent = test.shortLabel;
   elements.questionSkill.textContent = question.skill;
   elements.questionTitle.textContent = question.title;
-  elements.questionPassage.textContent = question.passage;
-  elements.questionPassage.classList.add("is-visible");
+  elements.questionPassage.textContent = question.passage || "";
+  elements.questionPassage.classList.remove("is-visible");
   elements.answerList.innerHTML = "";
 
   question.choices.forEach((choice, index) => {
@@ -482,6 +482,14 @@ function updateTimer(totalSeconds) {
   elements.timerFill.style.width = `${percent}%`;
   elements.timerBox.classList.toggle("is-warning", remaining <= 15 && remaining > 7);
   elements.timerBox.classList.toggle("is-danger", remaining <= 7);
+
+  // Show hint (passage) when elapsed time >= 60%
+  const elapsedPercent = ((totalSeconds - remaining) / totalSeconds) * 100;
+  if (elapsedPercent >= 60) {
+    elements.questionPassage.classList.add("is-visible");
+  } else {
+    elements.questionPassage.classList.remove("is-visible");
+  }
 }
 
 function handleTimeout() {
@@ -644,11 +652,19 @@ function drawSignal(signal) {
   const centerY = height / 2;
   const radius = Math.min(width, height) * 0.34;
 
+  const rootStyles = getComputedStyle(document.documentElement);
+  const canvasBg = rootStyles.getPropertyValue('--surface').trim() || "#fbfaf7";
+  const lineColor = rootStyles.getPropertyValue('--line').trim() || "rgba(32, 33, 36, 0.13)";
+  const greenColor = rootStyles.getPropertyValue('--green').trim() || "#23705d";
+  const coralColor = rootStyles.getPropertyValue('--coral').trim() || "#c95f4a";
+  const indigoColor = rootStyles.getPropertyValue('--indigo').trim() || "#4d5b99";
+  const fillBg = rootStyles.getPropertyValue('--green-light').trim() || "rgba(35, 112, 93, 0.18)";
+
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "#f7f5ef";
+  ctx.fillStyle = canvasBg;
   ctx.fillRect(0, 0, width, height);
 
-  ctx.strokeStyle = "rgba(32, 33, 36, 0.13)";
+  ctx.strokeStyle = lineColor;
   ctx.lineWidth = 1;
   for (let i = 1; i <= 4; i += 1) {
     ctx.beginPath();
@@ -657,21 +673,21 @@ function drawSignal(signal) {
   }
 
   const axes = [
-    { label: "IQ", angle: -Math.PI / 2, value: signal.iq, color: "#23705d" },
-    { label: "EQ", angle: Math.PI / 6, value: signal.eq, color: "#c95f4a" },
-    { label: "Flow", angle: (Math.PI * 5) / 6, value: signal.progress, color: "#4d5b99" }
+    { label: "IQ", angle: -Math.PI / 2, value: signal.iq, color: greenColor },
+    { label: "EQ", angle: Math.PI / 6, value: signal.eq, color: coralColor },
+    { label: "Flow", angle: (Math.PI * 5) / 6, value: signal.progress, color: indigoColor }
   ];
 
   axes.forEach((axis) => {
     const x = centerX + Math.cos(axis.angle) * radius;
     const y = centerY + Math.sin(axis.angle) * radius;
-    ctx.strokeStyle = "rgba(32, 33, 36, 0.22)";
+    ctx.strokeStyle = lineColor;
     ctx.beginPath();
     ctx.moveTo(centerX, centerY);
     ctx.lineTo(x, y);
     ctx.stroke();
     ctx.fillStyle = axis.color;
-    ctx.font = "700 15px Segoe UI, sans-serif";
+    ctx.font = "800 15px 'Plus Jakarta Sans', system-ui, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText(axis.label, x, y + (axis.angle < 0 ? -10 : 20));
   });
@@ -685,8 +701,8 @@ function drawSignal(signal) {
     else ctx.lineTo(x, y);
   });
   ctx.closePath();
-  ctx.fillStyle = "rgba(35, 112, 93, 0.18)";
-  ctx.strokeStyle = "#23705d";
+  ctx.fillStyle = fillBg;
+  ctx.strokeStyle = greenColor;
   ctx.lineWidth = 3;
   ctx.fill();
   ctx.stroke();
@@ -912,6 +928,37 @@ elements.copyBtn.addEventListener("click", copySummary);
 const userLang = navigator.language || navigator.userLanguage;
 const defaultLang = userLang && userLang.startsWith('ko') ? 'ko' : 'en';
 setLanguage(defaultLang);
+
+// ==========================================
+// Comfort Dark / Warm Light Theme Toggle Handler
+// ==========================================
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeToggleIcon(newTheme);
+  
+  // Dynamic Canvas Re-drawing
+  drawSignal(getCurrentSignal());
+}
+
+function updateThemeToggleIcon(theme) {
+  if (themeToggleBtn) {
+    const iconSpan = themeToggleBtn.querySelector('.theme-icon');
+    if (iconSpan) {
+      iconSpan.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+  }
+}
+
+if (themeToggleBtn) {
+  const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  updateThemeToggleIcon(activeTheme);
+  themeToggleBtn.addEventListener('click', toggleTheme);
+}
 
 // ==========================================
 // MBTI Quick Finder Diagnoser Flow

@@ -10,7 +10,23 @@
     <meta property="og:title" content="IQ & EQ 테스트 - Mind Balance" id="ogTitle" />
     <meta property="og:description" content="논리 추론과 정서 판단을 각각 나누어 확인하는 자기점검형 IQ 및 EQ 테스트입니다." id="ogDesc" />
     <meta property="og:type" content="website" />
+    
+    <!-- Google Fonts & Pretendard -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
     <link rel="stylesheet" href="styles.css" />
+    
+    <!-- Theme Restore (Anti-Flicker) -->
+    <script>
+      (function() {
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+
     <script src="data.js" defer></script>
     <script src="data_en.js" defer></script>
     <script src="script.js" defer></script>
@@ -19,23 +35,28 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1484447012475820" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px;">
-      <div class="lang-toggle-container" style="margin: 0;">
-        <button id="langKoBtn" class="lang-btn active" type="button">한국어</button>
-        <button id="langEnBtn" class="lang-btn" type="button">English</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 16px 20px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="lang-toggle-container" style="margin: 0; padding: 0;">
+          <button id="langKoBtn" class="lang-btn active" type="button">한국어</button>
+          <button id="langEnBtn" class="lang-btn" type="button">English</button>
+        </div>
+        <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="화면 모드 변경">
+          <span class="theme-icon">🌙</span>
+        </button>
       </div>
 
       <div>
         <div id="login-section">
-          <button type="button" id="btn-login" style="cursor:pointer; padding: 8px 14px; border: 1px solid #e0e0e0; background: #ffffff; border-radius: 6px; font-weight: bold; font-size: 0.85rem; display: inline-flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #555;">
+          <button type="button" id="btn-login" class="login-btn-google">
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" style="width:16px; margin-right:8px;" alt="Google">
             Google 로그인
           </button>
         </div>
-        <div id="profile-section" style="display: none; align-items: center; gap: 10px;">
-          <img id="user-photo" src="" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #ddd;" alt="프로필">
-          <span id="user-name" style="font-weight: bold; font-size: 0.85rem; color: #333;"></span>
-          <button type="button" id="btn-logout" style="cursor:pointer; padding: 5px 10px; border: none; background: #eeeeee; border-radius: 4px; font-size: 0.8rem; color: #666; font-weight: bold;">로그아웃</button>
+        <div id="profile-section" class="profile-container" style="display: none;">
+          <img id="user-photo" class="profile-photo" src="" alt="프로필">
+          <span id="user-name" class="profile-name"></span>
+          <button type="button" id="btn-logout" class="logout-btn">로그아웃</button>
         </div>
       </div>
     </div>
