@@ -329,6 +329,7 @@
 
       // 1. 로그인 작동
       btnLogin.addEventListener('click', async () => {
+        if (typeof gtag === 'function') { gtag('event', 'click_google_login', { 'event_category': 'button' }); }
         try {
           await signInWithPopup(auth, provider);
         } catch (error) {
