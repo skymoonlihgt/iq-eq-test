@@ -15,14 +15,29 @@
     <script src="data_en.js" defer></script>
     <script src="script.js" defer></script>
     
-    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-1484447012475820">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1484447012475820" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div class="lang-toggle-container">
-      <button id="langKoBtn" class="lang-btn active" type="button">한국어</button>
-      <button id="langEnBtn" class="lang-btn" type="button">English</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 10px 20px;">
+      <div class="lang-toggle-container" style="margin: 0;">
+        <button id="langKoBtn" class="lang-btn active" type="button">한국어</button>
+        <button id="langEnBtn" class="lang-btn" type="button">English</button>
+      </div>
+
+      <div>
+        <div id="login-section">
+          <button type="button" id="btn-login" style="cursor:pointer; padding: 8px 14px; border: 1px solid #e0e0e0; background: #ffffff; border-radius: 6px; font-weight: bold; font-size: 0.85rem; display: inline-flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #555;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" style="width:16px; margin-right:8px;" alt="Google">
+            Google 로그인
+          </button>
+        </div>
+        <div id="profile-section" style="display: none; align-items: center; gap: 10px;">
+          <img id="user-photo" src="" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #ddd;" alt="프로필">
+          <span id="user-name" style="font-weight: bold; font-size: 0.85rem; color: #333;"></span>
+          <button type="button" id="btn-logout" style="cursor:pointer; padding: 5px 10px; border: none; background: #eeeeee; border-radius: 4px; font-size: 0.8rem; color: #666; font-weight: bold;">로그아웃</button>
+        </div>
+      </div>
     </div>
 
     <main class="app-shell">
@@ -116,7 +131,6 @@
             </button>
           </div>
 
-          <!-- ADSENSE START AD -->
           <div class="adsense-container adsense-start">
             <ins class="adsbygoogle"
                  style="display:block"
@@ -173,7 +187,6 @@
             </div>
           </footer>
 
-          <!-- ADSENSE QUESTION AD -->
           <div class="adsense-container adsense-question">
             <ins class="adsbygoogle"
                  style="display:block"
@@ -196,7 +209,6 @@
               <div id="loadingProgressFill" class="loading-progress-fill"></div>
             </div>
           </div>
-          <!-- ADSENSE LOADING AD -->
           <div class="adsense-container adsense-loading">
             <ins class="adsbygoogle"
                  style="display:block"
@@ -232,7 +244,6 @@
           </footer>
           <p id="copyStatus" class="copy-status" role="status"></p>
 
-          <!-- ADSENSE RESULT AD -->
           <div class="adsense-container adsense-result">
             <ins class="adsbygoogle"
                  style="display:block"
@@ -287,5 +298,66 @@
         </div>
       </div>
     </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+      // 질문자님의 진짜 Firebase 프로젝트 정보로 완성된 config입니다.
+      const firebaseConfig = {
+        apiKey: "AIzaSyC7cJ1nZCpTnczDkyLzdNQHxHWGNz-lcsY",
+        authDomain: "iqeq-7dd2c.firebaseapp.com",
+        projectId: "iqeq-7dd2c",
+        storageBucket: "iqeq-7dd2c.firebasestorage.app",
+        messagingSenderId: "657350828453",
+        appId: "1:657350828453:web:4b54103f448c39adc6084c",
+        measurementId: "G-Q6CREQBHJV"
+      };
+
+      // Firebase 및 구글 인증 서비스 초기화
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
+      // 화면 요소 가져오기
+      const loginSection = document.getElementById('login-section');
+      const profileSection = document.getElementById('profile-section');
+      const btnLogin = document.getElementById('btn-login');
+      const btnLogout = document.getElementById('btn-logout');
+      const userPhoto = document.getElementById('user-photo');
+      const userName = document.getElementById('user-name');
+
+      // 1. 로그인 작동
+      btnLogin.addEventListener('click', async () => {
+        try {
+          await signInWithPopup(auth, provider);
+        } catch (error) {
+          console.error("로그인 실패:", error);
+          alert("로그인에 실패했습니다. 다시 시도해 주세요.");
+        }
+      });
+
+      // 2. 로그아웃 작동
+      btnLogout.addEventListener('click', async () => {
+        try {
+          await signOut(auth);
+        } catch (error) {
+          console.error("로그아웃 실패:", error);
+        }
+      });
+
+      // 3. 실시간 로그인 유저 상태 체크 및 화면 전환
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          userPhoto.src = user.photoURL || "https://via.placeholder.com/32";
+          userName.textContent = `${user.displayName}님`;
+          loginSection.style.display = 'none';
+          profileSection.style.display = 'flex';
+        } else {
+          loginSection.style.display = 'block';
+          profileSection.style.display = 'none';
+        }
+      });
+    </script>
   </body>
 </html>
