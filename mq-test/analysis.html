@@ -45,12 +45,13 @@
     .analysis-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 16px;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 480px) {
       .analysis-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
       }
     }
 
