@@ -35,8 +35,56 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1484447012475820" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 16px 20px;">
-      <div style="display: flex; align-items: center; gap: 12px;">
+    <style>
+      .top-nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px 20px;
+        gap: 8px;
+      }
+      .top-nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      @media (max-width: 600px) {
+        .top-nav-container {
+          padding: 12px 16px;
+        }
+        .top-nav-left {
+          gap: 6px;
+        }
+        .lang-btn {
+          padding: 4px 8px;
+          font-size: 0.75rem;
+        }
+        .theme-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 1rem;
+        }
+        .login-btn-google, .logout-btn {
+          padding: 6px 10px;
+          font-size: 0.75rem;
+        }
+        .login-btn-google img {
+          width: 14px !important;
+          margin-right: 4px !important;
+        }
+        #btn-login {
+          white-space: nowrap;
+        }
+        .profile-name {
+          font-size: 0.75rem;
+          display: none; /* Hide name on mobile to save space */
+        }
+      }
+    </style>
+    <div class="top-nav-container">
+      <div class="top-nav-left">
         <div class="lang-toggle-container" style="margin: 0; padding: 0;">
           <button id="langKoBtn" class="lang-btn active" type="button">한국어</button>
           <button id="langEnBtn" class="lang-btn" type="button">English</button>
