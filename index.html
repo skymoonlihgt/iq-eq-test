@@ -124,21 +124,12 @@
     <script type="module">
       import { initAuth } from './js/core/auth.js';
       import { initSound } from './js/core/sound.js';
+      import { initTheme } from './js/core/theme.js';
       
       document.addEventListener('DOMContentLoaded', () => {
         initAuth();
         initSound();
-        
-        // 다크모드 토글 스크립트 (기존 기능 유지)
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
-        if (themeToggleBtn) {
-          themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-          });
-        }
+        initTheme();
       });
     </script>
   </body>

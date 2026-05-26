@@ -15,12 +15,23 @@
   
   <meta name="google-adsense-account" content="ca-pub-1484447012475820">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1484447012475820" crossorigin="anonymous"></script>
+
+  <!-- Theme Restore (Anti-Flicker) -->
+  <script>
+    (function() {
+      const theme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
 <body>
   <!-- 공통 헤더 (네비게이션 바) -->
   <header class="site-header">
-    <div class="header-inner">
+    <div class="header-inner" style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto;">
       <a href="../index.html" class="logo">Mind Balance</a>
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="화면 모드 변경" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+        <span class="theme-icon">🌙</span>
+      </button>
     </div>
   </header>
 
@@ -64,6 +75,10 @@
     </div>
   </div>
 
+  <script type="module">
+    import { initTheme } from '../js/core/theme.js';
+    initTheme();
+  </script>
   <script type="module" src="script.js"></script>
 </body>
 </html>

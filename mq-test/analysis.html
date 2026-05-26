@@ -16,6 +16,14 @@
   <meta name="google-adsense-account" content="ca-pub-1484447012475820">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1484447012475820" crossorigin="anonymous"></script>
 
+  <!-- Theme Restore (Anti-Flicker) -->
+  <script>
+    (function() {
+      const theme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
   <style>
     .analysis-container {
       max-width: 800px;
@@ -216,8 +224,11 @@
 <body>
   <!-- 공통 헤더 -->
   <header class="site-header">
-    <div class="header-inner">
+    <div class="header-inner" style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto;">
       <a href="../index.html" class="logo">Mind Balance</a>
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="화면 모드 변경" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">
+        <span class="theme-icon">🌙</span>
+      </button>
     </div>
   </header>
 
@@ -376,6 +387,10 @@
     window.goToAnalysis = function(type) {
       window.location.href = `./analysis.html?type=${type}`;
     };
+  </script>
+  <script type="module">
+    import { initTheme } from '../js/core/theme.js';
+    initTheme();
   </script>
 </body>
 </html>
