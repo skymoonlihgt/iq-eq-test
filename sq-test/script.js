@@ -56,7 +56,7 @@ function renderQuestion() {
   });
 
   mainView.innerHTML = `
-    <h2 style="font-size:1.4rem; line-height:1.5; margin-bottom:24px;">Q${q.id}. ${q.question}</h2>
+    <h2 class="question-title">Q${q.id}. ${q.question}</h2>
     <div class="answer-list">
       ${optionsHtml}
     </div>
