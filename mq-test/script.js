@@ -204,16 +204,13 @@ function renderResult() {
 
       <div class="analysis-action" style="margin-top: 16px; margin-bottom: 16px;">
         <button id="btnGoAnalysis" class="primary-button" style="width: 100%; background: linear-gradient(135deg, #6c5ce7, #a29bfe); box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);">
-          나의 4대 테마 심층 분석 보러 가기 ➔
+          나의 8대 테마 심층 분석 보러 가기 ➔
         </button>
       </div>
 
       <div class="share-actions">
-        <button id="btnShareKakao" class="secondary-button">
-          💬 카카오톡 공유하기
-        </button>
-        <button id="btnCopyLink" class="secondary-button">
-          🔗 링크 복사
+        <button id="btnCopyLink" class="secondary-button" style="flex: 1;">
+          🔗 결과 복사 및 공유하기
         </button>
         <button id="btnRestart" class="primary-button" style="flex: 1;">
           다시하기
@@ -238,13 +235,16 @@ function renderResult() {
 
   // Bind actions
   document.getElementById('btnCopyLink').addEventListener('click', () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      alert('링크가 복사되었습니다!');
+    // Generate text to share
+    const analysisUrl = new URL(`./analysis.html?type=${finalResultCode}`, window.location.href).href;
+    const shareText = `[Mind Balance MQ 테스트 결과]\n\n나의 성향: ${finalResultCode}\n👉 ${viewData.title}\n\n${viewData.summary}\n\n나의 8대 심층 분석 결과 확인하기:\n${analysisUrl}`;
+    
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert('결과가 복사되었습니다! 카카오톡이나 메시지로 공유해보세요.');
+    }).catch(err => {
+      console.error('Copy failed', err);
+      alert('복사에 실패했습니다.');
     });
-  });
-  
-  document.getElementById('btnShareKakao').addEventListener('click', () => {
-    alert('카카오톡 공유 기능은 현재 준비중입니다.'); // API integration required
   });
 
   document.getElementById('btnRestart').addEventListener('click', () => {
