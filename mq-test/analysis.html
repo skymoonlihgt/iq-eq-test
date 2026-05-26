@@ -321,9 +321,6 @@
                data-ad-slot="9988776658"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>
-          <script>
-               (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
         </div>
 
         <div class="back-btn-container">
@@ -335,6 +332,12 @@
       `;
 
       container.innerHTML = cardsHtml;
+      
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.warn("AdSense push error:", e);
+      }
     }
 
     window.openEncyclopedia = async function() {
