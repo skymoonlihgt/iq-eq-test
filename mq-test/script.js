@@ -235,6 +235,16 @@ function renderResult() {
           다시하기
         </button>
       </div>
+
+      <!-- Result AdSense -->
+      <div class="adsense-container" style="margin-top: 32px; text-align: center;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1484447012475820"
+             data-ad-slot="9988776659"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
     </div>
   `;
 
@@ -272,4 +282,11 @@ function renderResult() {
     updateProgress();
     location.reload(); // simple reload
   });
+
+  // Push AdSense
+  try {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  } catch (e) {
+    console.warn("AdSense push error:", e);
+  }
 }
