@@ -321,13 +321,13 @@
       container.innerHTML = cardsHtml;
     }
 
-    async function openEncyclopedia() {
+    window.openEncyclopedia = async function() {
       const modal = document.getElementById('encyclopediaModal');
       const grid = document.getElementById('encyclopediaGrid');
       
       modal.classList.add('active');
       
-      if (grid.innerHTML.trim() === '') {
+      if (grid.children.length === 0) {
         grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">도감 데이터를 불러오는 중...</p>';
         try {
           const res = await fetch('./results.json');
@@ -348,15 +348,15 @@
           grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">도감 데이터를 불러오는데 실패했습니다.</p>';
         }
       }
-    }
+    };
 
-    function closeEncyclopedia() {
+    window.closeEncyclopedia = function() {
       document.getElementById('encyclopediaModal').classList.remove('active');
-    }
+    };
 
-    function goToAnalysis(type) {
+    window.goToAnalysis = function(type) {
       window.location.href = `./analysis.html?type=${type}`;
-    }
+    };
   </script>
 </body>
 </html>
