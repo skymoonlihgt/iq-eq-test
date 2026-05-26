@@ -142,7 +142,7 @@
 
       try {
         const res = await fetch('./analysis.json');
-        if (!res.ok) throw new Error(\`HTTP Error: \${res.status}\`);
+        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
         const data = await res.json();
 
         // If specific type is not found, fallback to INFP (as default example)
@@ -169,7 +169,7 @@
       
       const cardsHtml = `
         <div class="analysis-header">
-          <div class="type-badge">\${type}</div>
+          <div class="type-badge">${type}</div>
           <h1>나의 4대 테마 심층 분석</h1>
           <p>일상 속 당신의 진짜 모습을 확인해보세요.</p>
         </div>
@@ -181,11 +181,11 @@
               <div class="card-icon">🔥</div>
               <div class="card-title-group">
                 <h3>번아웃 위험도</h3>
-                <div class="card-subtitle">\${data.burnout.level}</div>
+                <div class="card-subtitle">${data.burnout.level}</div>
               </div>
             </div>
             <div class="analysis-card-body">
-              <p>\${data.burnout.desc}</p>
+              <p>${data.burnout.desc}</p>
             </div>
           </div>
 
@@ -195,11 +195,11 @@
               <div class="card-icon">💕</div>
               <div class="card-title-group">
                 <h3>연애 성향</h3>
-                <div class="card-subtitle">\${data.romance.style}</div>
+                <div class="card-subtitle">${data.romance.style}</div>
               </div>
             </div>
             <div class="analysis-card-body">
-              <p>\${data.romance.desc}</p>
+              <p>${data.romance.desc}</p>
             </div>
           </div>
 
@@ -209,11 +209,11 @@
               <div class="card-icon">🤝</div>
               <div class="card-title-group">
                 <h3>친구 관계</h3>
-                <div class="card-subtitle">\${data.friendship.style}</div>
+                <div class="card-subtitle">${data.friendship.style}</div>
               </div>
             </div>
             <div class="analysis-card-body">
-              <p>\${data.friendship.desc}</p>
+              <p>${data.friendship.desc}</p>
             </div>
           </div>
 
@@ -223,11 +223,11 @@
               <div class="card-icon">🏢</div>
               <div class="card-title-group">
                 <h3>조직 생활 유형</h3>
-                <div class="card-subtitle">\${data.life.style}</div>
+                <div class="card-subtitle">${data.life.style}</div>
               </div>
             </div>
             <div class="analysis-card-body">
-              <p>\${data.life.desc}</p>
+              <p>${data.life.desc}</p>
             </div>
           </div>
         </div>
