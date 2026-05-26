@@ -15,51 +15,75 @@
 
   <style>
     .analysis-container {
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 20px;
     }
     .analysis-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
     .analysis-header h1 {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-bottom: 8px;
     }
     .analysis-header p {
       color: var(--text-secondary);
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
     .type-badge {
       display: inline-block;
       background: var(--primary-color);
       color: white;
-      padding: 4px 12px;
+      padding: 6px 16px;
       border-radius: 20px;
       font-weight: bold;
-      margin-bottom: 12px;
-      font-size: 1.1rem;
+      margin-bottom: 16px;
+      font-size: 1.2rem;
     }
     
     .analysis-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .analysis-card {
       background: var(--surface-color);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 24px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
       border: 1px solid var(--border-color);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .analysis-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    html[data-theme='dark'] .analysis-card {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    html[data-theme='dark'] .analysis-card:hover {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
     }
 
     .analysis-card-header {
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
     }
     
     .card-icon {
@@ -167,69 +191,34 @@
     function renderAnalysis(type, data) {
       const container = document.getElementById('analysisContainer');
       
+      const themes = ['burnout', 'romance', 'friendship', 'life', 'religion', 'allergy', 'spending', 'prescription'];
+      
+      const cardsHtmlContent = themes.map(key => {
+        const item = data[key];
+        if (!item) return '';
+        return `
+          <div class="analysis-card">
+            <div class="analysis-card-header">
+              <div class="card-title-group">
+                <h3>${item.title}</h3>
+              </div>
+            </div>
+            <div class="analysis-card-body">
+              <p>${item.desc}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
       const cardsHtml = `
         <div class="analysis-header">
           <div class="type-badge">${type}</div>
-          <h1>나의 4대 테마 심층 분석</h1>
+          <h1>나의 8대 테마 심층 분석</h1>
           <p>일상 속 당신의 진짜 모습을 확인해보세요.</p>
         </div>
 
         <div class="analysis-grid">
-          <!-- 번아웃 위험도 -->
-          <div class="analysis-card">
-            <div class="analysis-card-header">
-              <div class="card-icon">🔥</div>
-              <div class="card-title-group">
-                <h3>번아웃 위험도</h3>
-                <div class="card-subtitle">${data.burnout.level}</div>
-              </div>
-            </div>
-            <div class="analysis-card-body">
-              <p>${data.burnout.desc}</p>
-            </div>
-          </div>
-
-          <!-- 연애 성향 -->
-          <div class="analysis-card">
-            <div class="analysis-card-header">
-              <div class="card-icon">💕</div>
-              <div class="card-title-group">
-                <h3>연애 성향</h3>
-                <div class="card-subtitle">${data.romance.style}</div>
-              </div>
-            </div>
-            <div class="analysis-card-body">
-              <p>${data.romance.desc}</p>
-            </div>
-          </div>
-
-          <!-- 친구 관계 -->
-          <div class="analysis-card">
-            <div class="analysis-card-header">
-              <div class="card-icon">🤝</div>
-              <div class="card-title-group">
-                <h3>친구 관계</h3>
-                <div class="card-subtitle">${data.friendship.style}</div>
-              </div>
-            </div>
-            <div class="analysis-card-body">
-              <p>${data.friendship.desc}</p>
-            </div>
-          </div>
-
-          <!-- 조직 생활 유형 -->
-          <div class="analysis-card">
-            <div class="analysis-card-header">
-              <div class="card-icon">🏢</div>
-              <div class="card-title-group">
-                <h3>조직 생활 유형</h3>
-                <div class="card-subtitle">${data.life.style}</div>
-              </div>
-            </div>
-            <div class="analysis-card-body">
-              <p>${data.life.desc}</p>
-            </div>
-          </div>
+          ${cardsHtmlContent}
         </div>
 
         <div class="back-btn-container">
