@@ -123,9 +123,11 @@
 
     <script type="module">
       import { initAuth } from './js/core/auth.js';
+      import { initSound } from './js/core/sound.js';
       
       document.addEventListener('DOMContentLoaded', () => {
         initAuth();
+        initSound();
         
         // 다크모드 토글 스크립트 (기존 기능 유지)
         const themeToggleBtn = document.getElementById('themeToggleBtn');

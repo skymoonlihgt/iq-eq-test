@@ -1,3 +1,5 @@
+import { initSound } from '../js/core/sound.js';
+
 let currentMode = 'essence';
 let questions = [];
 let resultsData = {};
@@ -6,9 +8,24 @@ let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
 let finalResultCode = '';
 
 document.addEventListener('DOMContentLoaded', async () => {
+  initSound();
   await loadData();
   initEvents();
 });
+
+// Toast Helper
+function showToast(message) {
+  let toast = document.getElementById('toastMsg');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toastMsg';
+    toast.className = 'toast-notification';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
 
 async function loadData() {
   try {
@@ -124,6 +141,8 @@ function renderQuestion() {
   const optionBtns = mainView.querySelectorAll('.answer-option');
   optionBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
+      if (window.playClickSound) window.playClickSound();
+      
       const type = e.currentTarget.dataset.type;
       scores[type]++;
       currentQuestionIndex++;
@@ -240,7 +259,7 @@ function renderResult() {
     const shareText = `[Mind Balance MQ 테스트 결과]\n\n나의 성향: ${finalResultCode}\n👉 ${viewData.title}\n\n${viewData.summary}\n\n나의 8대 심층 분석 결과 확인하기:\n${analysisUrl}`;
     
     navigator.clipboard.writeText(shareText).then(() => {
-      alert('결과가 복사되었습니다! 카카오톡이나 메시지로 공유해보세요.');
+      showToast('내 결과 페이지 링크가 복사되었습니다! 친구에게 공유해 보세요.');
     }).catch(err => {
       console.error('Copy failed', err);
       alert('복사에 실패했습니다.');

@@ -131,6 +131,82 @@
     .back-button:hover {
       background: var(--border-color);
     }
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--surface-color);
+      width: 100%;
+      max-width: 800px;
+      max-height: 85vh;
+      border-radius: 20px;
+      padding: 30px;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    .encyclopedia-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    @media (min-width: 600px) {
+      .encyclopedia-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 900px) {
+      .encyclopedia-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .encyclopedia-card {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .encyclopedia-card:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-4px);
+    }
+    .encyclopedia-card h4 {
+      margin: 0 0 8px 0;
+      font-size: 1.2rem;
+    }
+    .encyclopedia-card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: inherit;
+      opacity: 0.8;
+      word-break: keep-all;
+    }
   </style>
 </head>
 <body>
@@ -145,6 +221,18 @@
     <div class="analysis-container" id="analysisContainer">
       <div style="text-align: center; padding: 50px;">
         <p>데이터를 불러오는 중입니다...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16가지 성향 도감 모달 -->
+  <div id="encyclopediaModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeEncyclopedia()">✖</button>
+      <h2 style="text-align:center; margin-top:0;">📖 16가지 성향 도감</h2>
+      <p style="text-align:center; color:var(--text-secondary);">MBTI 16가지 성격 유형의 컨셉 모드를 한눈에 확인해 보세요!</p>
+      <div id="encyclopediaGrid" class="encyclopedia-grid">
+        <!-- 렌더링 영역 -->
       </div>
     </div>
   </div>
@@ -222,11 +310,51 @@
         </div>
 
         <div class="back-btn-container">
-          <button class="back-button" onclick="history.back()">⬅ 결과 화면으로 돌아가기</button>
+          <button class="primary-button" style="width: 100%; margin-bottom: 12px; background: linear-gradient(135deg, #10ac84, #1dd1a1); box-shadow: 0 4px 15px rgba(29, 209, 161, 0.3);" onclick="openEncyclopedia()">
+            📖 16가지 성향 도감 전체 구경하기 ➔
+          </button>
+          <button class="back-button" style="width: 100%;" onclick="history.back()">⬅ 결과 화면으로 돌아가기</button>
         </div>
       `;
 
       container.innerHTML = cardsHtml;
+    }
+
+    async function openEncyclopedia() {
+      const modal = document.getElementById('encyclopediaModal');
+      const grid = document.getElementById('encyclopediaGrid');
+      
+      modal.classList.add('active');
+      
+      if (grid.innerHTML.trim() === '') {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">도감 데이터를 불러오는 중...</p>';
+        try {
+          const res = await fetch('./results.json');
+          const resultsData = await res.json();
+          let html = '';
+          for (const mbti in resultsData) {
+            const conceptTitle = resultsData[mbti]?.concept?.title || '알 수 없는 성향';
+            html += `
+              <div class="encyclopedia-card" onclick="goToAnalysis('${mbti}')">
+                <h4>${mbti}</h4>
+                <p>${conceptTitle}</p>
+              </div>
+            `;
+          }
+          grid.innerHTML = html;
+        } catch (e) {
+          console.error(e);
+          grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">도감 데이터를 불러오는데 실패했습니다.</p>';
+        }
+      }
+    }
+
+    function closeEncyclopedia() {
+      document.getElementById('encyclopediaModal').classList.remove('active');
+    }
+
+    function goToAnalysis(type) {
+      window.location.href = `./analysis.html?type=${type}`;
     }
   </script>
 </body>
