@@ -157,7 +157,7 @@ function renderResult() {
   const viewData = resObj[currentMode];
 
   let chemHtml = '';
-  if (viewData.chemistry) {
+  if (currentMode === 'concept' && viewData.chemistry) {
     chemHtml = `
       <div class="chemistry-box">
         <div class="chem-item">
@@ -167,6 +167,19 @@ function renderResult() {
         <div class="chem-item">
           <span>환장의 케미 💔</span>
           <strong>${viewData.chemistry.bad}</strong>
+        </div>
+      </div>
+    `;
+  } else if (currentMode === 'essence' && viewData.match_good && viewData.match_bad) {
+    chemHtml = `
+      <div class="chemistry-box">
+        <div class="chem-item">
+          <span>잘 맞는 성향 🤝</span>
+          <strong>${viewData.match_good}</strong>
+        </div>
+        <div class="chem-item">
+          <span>안 맞는 성향 ⚡</span>
+          <strong>${viewData.match_bad}</strong>
         </div>
       </div>
     `;
@@ -187,6 +200,12 @@ function renderResult() {
           ${viewData.chart_analysis || ''}
         </div>
         ${chemHtml}
+      </div>
+
+      <div class="analysis-action" style="margin-top: 16px; margin-bottom: 16px;">
+        <button id="btnGoAnalysis" class="primary-button" style="width: 100%; background: linear-gradient(135deg, #6c5ce7, #a29bfe); box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);">
+          나의 4대 테마 심층 분석 보러 가기 ➔
+        </button>
       </div>
 
       <div class="share-actions">
@@ -210,6 +229,11 @@ function renderResult() {
       currentMode = e.target.dataset.mode;
       renderResult(); // Re-render immediately
     });
+  });
+
+  // Bind analysis link
+  document.getElementById('btnGoAnalysis').addEventListener('click', () => {
+    window.location.href = `./analysis.html?type=${finalResultCode}`;
   });
 
   // Bind actions
