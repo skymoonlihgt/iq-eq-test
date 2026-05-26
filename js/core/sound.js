@@ -1,6 +1,6 @@
 export function initSound() {
   // Create audio elements
-  const bgm = new Audio('https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3');
+  const bgm = new Audio('/mq-test/assets/bgm.mp3');
   bgm.loop = true;
   bgm.volume = 0.3;
 
