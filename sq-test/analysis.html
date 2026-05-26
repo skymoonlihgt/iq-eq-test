@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mind Balance - 나의 8대 테마 심층 분석 (SQ)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="style.css" />
+  
+  <meta name="google-adsense-account" content="ca-pub-1484447012475820">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1484447012475820" crossorigin="anonymous"></script>
+
+  <script>
+    (function() {
+      const theme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">Mind Balance</a>
+      <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="화면 모드 변경">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-shell test-mode">
+    <div id="analysisContainer" style="padding-bottom: 40px;">
+      <div style="text-align: center; padding: 50px;">
+        <div class="spinner" style="margin: 0 auto 20px;"></div>
+        <p>데이터를 불러오는 중입니다...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 성향 도감 모달 -->
+  <div id="encyclopediaModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeEncyclopedia()">✖</button>
+      <h2 style="text-align:center; margin-top:0;">📖 16가지 성향 도감</h2>
+      <p style="text-align:center; color:var(--text-secondary);">SQ 테스트 16가지 성향을 한눈에 확인해 보세요!</p>
+      <div id="encyclopediaGrid" class="encyclopedia-grid"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initTheme } from '../js/core/theme.js';
+    initTheme();
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('analysisContainer');
+      const urlParams = new URLSearchParams(window.location.search);
+      let type = urlParams.get('type') || 'INFP'; // default fallback
+
+      try {
+        const res = await fetch('./analysis.json');
+        if (!res.ok) throw new Error('Network error');
+        const data = await res.json();
+
+        const analysisData = data[type] || data['INFP'];
+        if (!analysisData) throw new Error('Data not found');
+
+        window.cachedAnalysisData = data; // for encyclopedia
+        renderAnalysis(type, analysisData);
+
+      } catch (e) {
+        console.error(e);
+        container.innerHTML = `
+          <div style="text-align:center; padding: 50px;">
+            <p>데이터를 불러오는데 실패했습니다.</p>
+            <button class="primary-button" onclick="history.back()" style="margin-top:20px;">돌아가기</button>
+          </div>
+        `;
+      }
+    });
+
+    function renderAnalysis(type, data) {
+      const container = document.getElementById('analysisContainer');
+      const themes = ['burnout', 'wellness', 'fantasy', 'disaster', 'religion', 'allergy', 'spending', 'prescription'];
+      
+      let cardsHtml = '';
+      themes.forEach(key => {
+        const item = data[key];
+        if (item) {
+          cardsHtml += `
+            <div class="analysis-card">
+              <h3>${item.title}</h3>
+              <p>${item.desc}</p>
+            </div>
+          `;
+        }
+      });
+
+      container.innerHTML = `
+        <div style="text-align: center; margin-bottom: 32px;">
+          <div style="display:inline-block; background:var(--primary-color); color:#fff; padding:6px 16px; border-radius:20px; font-weight:bold; margin-bottom:16px;">${type}</div>
+          <h1 style="font-size:1.8rem; margin:0 0 8px;">나의 8대 테마 심층 분석</h1>
+          <p style="color:var(--text-secondary); margin:0;">일상 속 당신의 진짜 모습을 확인해보세요.</p>
+        </div>
+
+        <div class="analysis-grid">
+          ${cardsHtml}
+        </div>
+
+        <div class="adsense-container adsense-slot" style="margin: 32px 0; text-align: center;">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1484447012475820"
+               data-ad-slot="9988776658"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <button class="primary-button" style="background: linear-gradient(135deg, #10ac84, #1dd1a1);" onclick="openEncyclopedia()">
+            📖 16가지 성향 도감 전체 구경하기 ➔
+          </button>
+          <button class="primary-button" style="background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color);" onclick="copyLink()">
+            🔗 내 결과 링크 복사하기
+          </button>
+          <button class="primary-button" style="background: transparent; color: var(--text-color); border: 1px solid var(--border-color);" onclick="window.location.href='index.html'">
+            ⬅ 다시 테스트하기
+          </button>
+        </div>
+      `;
+
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+    }
+
+    window.openEncyclopedia = function() {
+      const modal = document.getElementById('encyclopediaModal');
+      const grid = document.getElementById('encyclopediaGrid');
+      modal.classList.add('active');
+
+      if (grid.children.length === 0 && window.cachedAnalysisData) {
+        let html = '';
+        for (const mbti in window.cachedAnalysisData) {
+          const title = window.cachedAnalysisData[mbti]?.fantasy?.title || '';
+          html += `
+            <div class="encyclopedia-card" onclick="window.location.href='./analysis.html?type=${mbti}'">
+              <h4>${mbti}</h4>
+              <p>${title}</p>
+            </div>
+          `;
+        }
+        grid.innerHTML = html;
+      }
+    };
+
+    window.closeEncyclopedia = function() {
+      document.getElementById('encyclopediaModal').classList.remove('active');
+    };
+
+    window.copyLink = function() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('결과 링크가 복사되었습니다!');
+      }).catch(err => {
+        alert('복사에 실패했습니다.');
+      });
+    };
+  </script>
+</body>
+</html>
