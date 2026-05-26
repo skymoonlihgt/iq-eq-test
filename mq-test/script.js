@@ -13,12 +13,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadData() {
   try {
     const qRes = await fetch('./questions.json');
+    if (!qRes.ok) {
+      throw new Error(`Failed to load questions.json (status: ${qRes.status})`);
+    }
     questions = await qRes.json();
     
     const rRes = await fetch('./results.json');
+    if (!rRes.ok) {
+      throw new Error(`Failed to load results.json (status: ${rRes.status})`);
+    }
     resultsData = await rRes.json();
-  } catch (error) {
-    console.error('Data loading error:', error);
+  } catch (e) {
+    console.error('Data loading error:', e);
     alert('데이터를 불러오는데 실패했습니다.');
   }
 }
