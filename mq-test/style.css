@@ -1,0 +1,133 @@
+/* Custom styles for mq-test */
+body {
+  padding-top: 70px; /* offset for header */
+}
+
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: var(--panel);
+  border-bottom: 1.5px solid var(--line);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.site-header .logo {
+  text-decoration: none;
+  font-weight: 800;
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 12px;
+  margin-block: 24px;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 16px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-weight: 700;
+  transition: var(--transition);
+  font-size: 1.1rem;
+}
+
+.mode-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.mode-btn.is-active {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.result-card {
+  padding: 32px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--border-radius-lg);
+  background: var(--surface);
+  margin-bottom: 24px;
+}
+
+.result-code {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.result-title {
+  color: var(--green);
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.result-summary {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.result-analysis {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.chemistry-box {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1.5px solid var(--line);
+  display: flex;
+  gap: 16px;
+}
+
+.chem-item {
+  flex: 1;
+  padding: 16px;
+  border-radius: var(--border-radius-md);
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+}
+
+.chem-item span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.chem-item strong {
+  display: block;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+
+.share-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.share-actions .secondary-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

@@ -2,14 +2,9 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="naver-site-verification" content="2a3a6da3330b127a98b09d1054d654f932521350" /> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title data-i18n="pageTitle">IQ & EQ 테스트 - Mind Balance</title>
-    <meta name="description" content="논리 추론과 정서 판단을 각각 나누어 확인하는 자기점검형 IQ 및 EQ 테스트입니다." id="metaDesc" />
-    <meta name="keywords" content="IQ테스트, EQ테스트, 지능검사, 감성지능, 아이큐테스트, 심리테스트" id="metaKeywords" />
-    <meta property="og:title" content="IQ & EQ 테스트 - Mind Balance" id="ogTitle" />
-    <meta property="og:description" content="논리 추론과 정서 판단을 각각 나누어 확인하는 자기점검형 IQ 및 EQ 테스트입니다." id="ogDesc" />
-    <meta property="og:type" content="website" />
+    <title>Mind Balance - 심리 & 지능 테스트 포털</title>
+    <meta name="description" content="IQ, EQ, MBTI 등 다양한 심리테스트와 지능검사를 제공하는 종합 테스트 포털 Mind Balance입니다." />
     
     <!-- Google Fonts & Pretendard -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/home.css" />
     
     <!-- Theme Restore (Anti-Flicker) -->
     <script>
@@ -26,335 +22,119 @@
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
-
-    <script src="data.js" defer></script>
-    <script src="data_en.js" defer></script>
-    <script src="script.js" defer></script>
-    
-    <meta name="google-adsense-account" content="ca-pub-1484447012475820">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1484447012475820" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 16px 20px;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <div class="lang-toggle-container" style="margin: 0; padding: 0;">
-          <button id="langKoBtn" class="lang-btn active" type="button">한국어</button>
-          <button id="langEnBtn" class="lang-btn" type="button">English</button>
-        </div>
-        <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="화면 모드 변경">
-          <span class="theme-icon">🌙</span>
-        </button>
-      </div>
-
-      <div>
-        <div id="login-section">
-          <button type="button" id="btn-login" class="login-btn-google">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" style="width:16px; margin-right:8px;" alt="Google">
-            Google 로그인
+    <!-- 공통 헤더 (네비게이션 바) -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">Mind Balance</a>
+        <div class="header-actions">
+          <button id="themeToggleBtn" class="theme-btn" type="button" aria-label="화면 모드 변경">
+            <span class="theme-icon">🌙</span>
           </button>
-        </div>
-        <div id="profile-section" class="profile-container" style="display: none;">
-          <img id="user-photo" class="profile-photo" src="" alt="프로필">
-          <span id="user-name" class="profile-name"></span>
-          <button type="button" id="btn-logout" class="logout-btn">로그아웃</button>
+          
+          <div id="login-section">
+            <button type="button" id="btn-login" class="login-btn-google">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" style="width:16px; margin-right:8px;" alt="Google">
+              로그인
+            </button>
+          </div>
+          <div id="profile-section" class="profile-container" style="display: none;">
+            <img id="user-photo" class="profile-photo" src="" alt="프로필">
+            <span id="user-name" class="profile-name"></span>
+            <button type="button" id="btn-logout" class="logout-btn">로그아웃</button>
+          </div>
         </div>
       </div>
-    </div>
+    </header>
 
-    <main class="app-shell">
-      <aside class="insight-panel" aria-label="테스트 요약">
-        <div class="brand-block">
-          <span class="eyebrow" data-i18n="brandName">Mind Balance</span>
-          <h1 data-i18n="mainTitle">IQ & EQ 테스트</h1>
-          <p data-i18n="mainDesc">논리 추론과 정서 판단을 각각 나누어 확인하는 자기점검형 테스트</p>
-        </div>
+    <main class="portal-main">
+      <section class="hero-section">
+        <h1>나를 알아가는 시간, Mind Balance</h1>
+        <p>검증된 문항과 정교한 알고리즘으로 당신의 숨겨진 능력을 발견하세요.</p>
+      </section>
 
-        <div class="visual-stage" aria-hidden="true">
-          <canvas id="signalCanvas" width="420" height="300"></canvas>
-        </div>
-
-        <div class="score-strip">
-          <div>
-            <span data-i18n="iqTestLabel">IQ 테스트</span>
-            <strong id="iqMiniScore">30문항</strong>
-            <small data-i18n="iqTestDesc">최대 30문항 · 문항당 45초</small>
-          </div>
-          <div>
-            <span data-i18n="eqTestLabel">EQ 테스트</span>
-            <strong id="eqMiniScore">30문항</strong>
-            <small data-i18n="eqTestDesc">최대 30문항 · 문항당 35초</small>
-          </div>
-        </div>
-
-        <p class="notice" data-i18n="noticeText">
-          이 테스트는 교육용 자기점검 도구이며 실제 지능검사나 심리 진단을 대체하지 않습니다.
-        </p>
-      </aside>
-
-      <section class="test-panel" aria-live="polite">
-        <header class="topbar">
-          <button id="homeBtn" class="secondary-button compact-button" type="button" hidden data-i18n="selectScreenBtn">
-            선택 화면
-          </button>
-          <div class="progress-summary">
-            <span id="statusText" data-i18n="testSelection">테스트 선택</span>
-            <div class="progress-track" aria-hidden="true">
-              <div id="progressFill"></div>
-            </div>
-          </div>
-        </header>
-
-        <section id="startView" class="start-view">
-          <div class="start-heading">
-            <span class="eyebrow">Choose Test</span>
-            <h2 data-i18n="chooseTestTitle">어떤 테스트부터 시작할까요?</h2>
-            <p data-i18n="chooseTestDesc">
-              나이/연령대를 선택하면 해당 단계에 맞는 난이도 문항을 우선으로 구성합니다.
-            </p>
-          </div>
-
-          <div class="context-picker" aria-label="테스트 카테고리 선택">
-            <label class="select-field">
-              <span data-i18n="categoryLabel">테스트 유형</span>
-              <select id="categorySelect"></select>
-            </label>
-            <label class="select-field">
-              <span id="subCategoryLabel" data-i18n="ageLabel">나이/연령대</span>
-              <select id="subCategorySelect"></select>
-            </label>
-          </div>
-
-          <div class="question-count-picker">
-            <div>
-              <span class="eyebrow">Question Count</span>
-              <strong id="selectedCountText" data-i18n="selectedCount">15문항 선택</strong>
-            </div>
-            <div class="count-options" role="group" aria-label="문항 수 선택">
-              <button class="count-button is-active" type="button" data-count="15">15</button>
-              <button class="count-button" type="button" data-count="20">20</button>
-              <button class="count-button" type="button" data-count="25">25</button>
-              <button class="count-button" type="button" data-count="30">30</button>
-            </div>
-          </div>
-
-          <div class="test-cards">
-            <button class="test-card" type="button" data-test="iq">
-              <span class="card-kicker">Logic</span>
-              <strong data-i18n="iqTestTitle">IQ 테스트</strong>
-              <span data-i18n="iqTestTopics">수열, 조건 추론, 계산, 패턴 문제</span>
-              <b id="iqCardCount">15문항 · 문항당 45초</b>
-            </button>
-            <button class="test-card" type="button" data-test="eq">
-              <span class="card-kicker">Emotion</span>
-              <strong data-i18n="eqTestTitle">EQ 테스트</strong>
-              <span data-i18n="eqTestTopics">공감, 자기 인식, 감정 조절, 관계 판단</span>
-              <b id="eqCardCount">15문항 · 문항당 35초</b>
-            </button>
-          </div>
-
-          <div class="adsense-container adsense-start">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1484447012475820"
-                 data-ad-slot="9988776655"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
-        </section>
-
-        <section id="diagnoseView" class="question-view" hidden>
-          <div class="question-meta">
-            <span>MBTI</span>
-            <span id="diagnoseStepText">Step 1 / 2</span>
-          </div>
-          <h2 id="diagnoseTitle">성격 유형(MBTI) 약식 진단</h2>
-          <p id="diagnoseDesc" class="question-passage is-visible" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; display: block; margin-top: 0.5rem;"></p>
-          <div id="diagnoseChoices" class="answer-list" style="margin-top: 1.5rem;"></div>
-
-          <footer class="actions">
-            <button id="diagnoseBackBtn" class="secondary-button" type="button">
-              ← 이전으로
-            </button>
-          </footer>
-        </section>
-
-        <section id="questionView" class="question-view" hidden>
-          <div class="question-meta">
-            <span id="questionType">IQ</span>
-            <span id="questionSkill">패턴 추론</span>
-          </div>
-          <h2 id="questionTitle"></h2>
-          <p id="questionPassage" class="question-passage"></p>
-          <div id="answerList" class="answer-list"></div>
-
-          <footer class="actions">
-            <button id="quitBtn" class="secondary-button" type="button" data-i18n="selectScreenBtn">
-              테스트 선택
-            </button>
-            <div class="next-cluster">
-              <div id="timerBox" class="timer-box" hidden>
-                <span data-i18n="timeRemaining">남은 시간</span>
-                <strong id="timerText">45초</strong>
-                <div class="timer-track" aria-hidden="true">
-                  <div id="timerFill"></div>
+      <section class="test-grid-section">
+        <h2 class="section-title">인기 테스트</h2>
+        <div class="test-grid">
+          <!-- IQ & EQ 테스트 카드 -->
+          <a href="iq-eq.html" class="test-card-link">
+            <div class="portal-test-card">
+              <div class="card-badge new-badge">New</div>
+              <div class="card-icon">🧠</div>
+              <div class="card-content">
+                <h3>종합 IQ & EQ 테스트</h3>
+                <p>논리력과 감성 지능을 동시에 측정하여 당신의 인지 프로필을 완성하세요.</p>
+                <div class="card-tags">
+                  <span>#논리력</span>
+                  <span>#공감능력</span>
+                  <span>#지능검사</span>
                 </div>
               </div>
-              <button id="nextBtn" class="primary-button" type="button" disabled data-i18n="nextBtn">
-                다음
-              </button>
             </div>
-          </footer>
-        </section>
+          </a>
 
-        <section id="loadingView" class="loading-view" hidden>
-          <div class="loading-content">
-            <div class="spinner"></div>
-            <h2 id="loadingTitle" data-i18n="analyzingTitle">결과 분석 중...</h2>
-            <p id="loadingDesc" data-i18n="analyzingDesc">당신의 논리력 및 감성 지능 데이터를 결합하여 프로필을 연산하고 있습니다. 잠시만 기다려 주세요.</p>
-            <div class="loading-progress-track">
-              <div id="loadingProgressFill" class="loading-progress-fill"></div>
+          <!-- MBTI 테스트 카드 (준비중) -->
+          <a href="#" class="test-card-link disabled" onclick="alert('준비 중인 테스트입니다. 곧 만나요!'); return false;">
+            <div class="portal-test-card">
+              <div class="card-badge soon-badge">Coming Soon</div>
+              <div class="card-icon">👥</div>
+              <div class="card-content">
+                <h3>심층 성격유형 (MBTI) 진단</h3>
+                <p>16가지 성격 유형 중 나는 어디에 속할까? 나의 진짜 모습을 확인해보세요.</p>
+                <div class="card-tags">
+                  <span>#MBTI</span>
+                  <span>#성격유형</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
+          </a>
 
-        <section id="resultView" class="result-view" hidden>
-          <div class="result-heading">
-            <span class="eyebrow">Result</span>
-            <h2 id="resultTitle"></h2>
-            <p id="resultLead"></p>
-          </div>
-          <div id="resultMetrics" class="result-metrics"></div>
-          <div id="profileBars" class="profile-bars"></div>
-          <div id="reviewList" class="review-list"></div>
-          <footer class="actions result-actions">
-            <button id="restartBtn" class="secondary-button" type="button" data-i18n="restartBtn">
-              다시 풀기
-            </button>
-            <button id="chooseBtn" class="secondary-button" type="button" data-i18n="otherTestBtn">
-              다른 테스트 시작
-            </button>
-            <button id="copyBtn" class="primary-button" type="button" data-i18n="copyResultBtn">
-              결과 복사
-            </button>
-          </footer>
-          <p id="copyStatus" class="copy-status" role="status"></p>
-
-          <div class="adsense-container adsense-result">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1484447012475820"
-                 data-ad-slot="9988776658"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
-        </section>
+          <!-- 애니어그램 테스트 카드 (준비중) -->
+          <a href="#" class="test-card-link disabled" onclick="alert('준비 중인 테스트입니다. 곧 만나요!'); return false;">
+            <div class="portal-test-card">
+              <div class="card-badge soon-badge">Coming Soon</div>
+              <div class="card-icon">🎯</div>
+              <div class="card-content">
+                <h3>애니어그램 성격 심리</h3>
+                <p>나의 무의식적인 욕망과 두려움은 무엇일까? 애니어그램 9가지 유형 분석.</p>
+                <div class="card-tags">
+                  <span>#애니어그램</span>
+                  <span>#자아탐색</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
       </section>
     </main>
-
-    <article id="seoArticle" class="seo-article">
-      <div class="seo-content" id="seoContentKo">
-        <h2>IQ와 EQ, 당신의 진정한 능력은 무엇인가요?</h2>
-        <p>현대 사회에서는 단일한 지능 지수(IQ)만으로 개인의 역량을 평가하지 않습니다. 논리적이고 수리적인 능력을 나타내는 IQ(지능지수)와 타인의 감정을 이해하고 자신의 감정을 조절하는 능력을 뜻하는 EQ(감성지수)는 서로 보완적인 역할을 하며 우리의 삶을 이끌어갑니다.</p>
-        
-        <h3>IQ(지능지수)의 이해와 중요성</h3>
-        <p>IQ 테스트는 주로 논리력, 공간 지각력, 수리적 추론 능력을 측정합니다. 이는 학업 성취도나 복잡한 문제를 해결하는 데 중요한 역할을 합니다. 하지만 IQ가 높다고 해서 모든 삶의 문제에서 성공을 거두는 것은 아닙니다. 두뇌 활동을 자극하는 꾸준한 훈련과 새로운 학습을 통해 후천적으로도 충분히 계발할 수 있습니다.</p>
-        
-        <h3>EQ(감성지수)가 각광받는 이유</h3>
-        <p>EQ는 자신과 타인의 감정을 인식하고 관리하는 능력입니다. 높은 EQ를 가진 사람은 스트레스 상황에서도 침착함을 유지하며, 팀워크와 리더십에서 두각을 나타냅니다. 현대 비즈니스 환경에서는 소통과 협업이 필수적이므로 EQ의 중요성이 나날이 강조되고 있습니다. EQ 역시 의식적인 노력과 성찰을 통해 향상될 수 있습니다.</p>
-        
-        <h3>테스트 결과 활용하기</h3>
-        <p>Mind Balance의 IQ & EQ 테스트는 당신의 논리적, 정서적 강점을 파악하는 훌륭한 자기점검 도구입니다. 이 테스트를 통해 발견한 자신의 강점은 더욱 발전시키고, 부족한 부분은 일상에서의 작은 습관 변화를 통해 채워나가 보세요. 건강한 뇌와 안정된 정서는 더 나은 삶의 질을 위한 필수 조건입니다.</p>
-      </div>
-      <div class="seo-content" id="seoContentEn" style="display: none;">
-        <h2>IQ and EQ: What Are Your True Capabilities?</h2>
-        <p>In modern society, an individual's capabilities are no longer evaluated solely by a single Intelligence Quotient (IQ). IQ, which represents logical and mathematical reasoning, and EQ (Emotional Quotient), which indicates the ability to understand others' emotions and regulate one's own, play complementary roles in guiding our lives.</p>
-        
-        <h3>Understanding the Importance of IQ</h3>
-        <p>IQ tests primarily measure logical reasoning, spatial awareness, and mathematical deduction. These are crucial for academic achievement and solving complex problems. However, a high IQ does not guarantee success in every aspect of life. Through consistent brain-stimulating exercises and learning new things, you can continuously develop your cognitive abilities over time.</p>
-        
-        <h3>Why EQ is Gaining Spotlight</h3>
-        <p>EQ is the ability to recognize and manage the emotions of oneself and others. Individuals with high EQ maintain composure under stress and excel in teamwork and leadership. In today's business environment, where communication and collaboration are essential, the importance of EQ is increasingly emphasized. EQ can also be improved through conscious effort and self-reflection.</p>
-        
-        <h3>Utilizing Your Test Results</h3>
-        <p>The Mind Balance IQ & EQ Test is an excellent self-assessment tool to discover your logical and emotional strengths. Use these results to further develop your strong points and make small daily habit changes to improve areas that need growth. A healthy brain and emotional stability are essential conditions for a better quality of life.</p>
-      </div>
-    </article>
 
     <footer class="site-footer">
       <div class="footer-content">
         <p id="copyrightText">&copy; 2026 Mind Balance. All rights reserved.</p>
         <div class="footer-links">
-          <a href="terms.html" data-i18n="termsLink">이용약관</a>
-          <a href="privacy.html" data-i18n="privacyLink">개인정보처리방침</a>
-          <a href="mailto:dreambud2024@gmail.com" data-i18n="contactLink">문의하기</a>
+          <a href="terms.html">이용약관</a>
+          <a href="privacy.html">개인정보처리방침</a>
+          <a href="mailto:dreambud2024@gmail.com">문의하기</a>
         </div>
       </div>
     </footer>
 
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-      // 질문자님의 진짜 Firebase 프로젝트 정보로 완성된 config입니다.
-      const firebaseConfig = {
-        apiKey: "AIzaSyC7cJ1nZCpTnczDkyLzdNQHxHWGNz-lcsY",
-        authDomain: "iqeq-7dd2c.firebaseapp.com",
-        projectId: "iqeq-7dd2c",
-        storageBucket: "iqeq-7dd2c.firebasestorage.app",
-        messagingSenderId: "657350828453",
-        appId: "1:657350828453:web:4b54103f448c39adc6084c",
-        measurementId: "G-Q6CREQBHJV"
-      };
-
-      // Firebase 및 구글 인증 서비스 초기화
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const provider = new GoogleAuthProvider();
-
-      // 화면 요소 가져오기
-      const loginSection = document.getElementById('login-section');
-      const profileSection = document.getElementById('profile-section');
-      const btnLogin = document.getElementById('btn-login');
-      const btnLogout = document.getElementById('btn-logout');
-      const userPhoto = document.getElementById('user-photo');
-      const userName = document.getElementById('user-name');
-
-      // 1. 로그인 작동
-      btnLogin.addEventListener('click', async () => {
-        if (typeof gtag === 'function') { gtag('event', 'click_google_login', { 'event_category': 'button' }); }
-        try {
-          await signInWithPopup(auth, provider);
-        } catch (error) {
-          console.error("로그인 실패:", error);
-          alert("로그인에 실패했습니다. 다시 시도해 주세요.");
-        }
-      });
-
-      // 2. 로그아웃 작동
-      btnLogout.addEventListener('click', async () => {
-        try {
-          await signOut(auth);
-        } catch (error) {
-          console.error("로그아웃 실패:", error);
-        }
-      });
-
-      // 3. 실시간 로그인 유저 상태 체크 및 화면 전환
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          userPhoto.src = user.photoURL || "https://via.placeholder.com/32";
-          userName.textContent = `${user.displayName}님`;
-          loginSection.style.display = 'none';
-          profileSection.style.display = 'flex';
-        } else {
-          loginSection.style.display = 'block';
-          profileSection.style.display = 'none';
+      import { initAuth } from './js/core/auth.js';
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        initAuth();
+        
+        // 다크모드 토글 스크립트 (기존 기능 유지)
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        if (themeToggleBtn) {
+          themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+          });
         }
       });
     </script>

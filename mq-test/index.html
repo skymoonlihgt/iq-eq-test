@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mind Balance - 성격 유형 테스트 (MQ)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 공통 헤더 (네비게이션 바) -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">Mind Balance</a>
+    </div>
+  </header>
+
+  <div class="app-shell test-mode">
+    <div class="test-panel">
+      <!-- Topbar: progress -->
+      <div class="topbar">
+        <div class="progress-summary">
+          <div class="progress-track"><div id="progressFill"></div></div>
+          <span>진행률: <span id="progressText">0 / 20</span></span>
+        </div>
+      </div>
+      
+      <!-- Main view area -->
+      <div id="mainView" class="start-view">
+        <div class="start-heading">
+          <h2>나의 진짜 모습을 찾는 시간</h2>
+          <p>MQ(Mind Balance Quotient) 테스트를 통해 당신의 성향을 알아보세요.</p>
+        </div>
+        
+        <div class="mode-toggle">
+          <button class="mode-btn is-active" data-mode="essence">Essence 모드 (본질지향)</button>
+          <button class="mode-btn" data-mode="concept">Concept 모드 (컨셉지향)</button>
+        </div>
+
+        <button id="startBtn" class="primary-button">테스트 시작하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
