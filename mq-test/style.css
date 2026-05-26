@@ -131,3 +131,29 @@ body {
   justify-content: center;
   gap: 8px;
 }
+
+@media (max-width: 600px) {
+  .mode-toggle {
+    flex-direction: column;
+    gap: 8px;
+    margin-block: 16px;
+  }
+  
+  .mode-btn {
+    padding: 12px;
+    font-size: 1rem;
+  }
+  
+  .result-title {
+    font-size: 1.8rem;
+  }
+  
+  .result-card {
+    padding: 20px;
+  }
+  
+  .chemistry-box {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

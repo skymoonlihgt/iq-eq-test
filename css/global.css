@@ -786,6 +786,14 @@ h1 {
     min-height: 210px;
   }
 
+  .start-view,
+  .result-view,
+  .question-view,
+  .diagnose-view,
+  .loading-view {
+    padding: 16px 8px;
+  }
+
   .context-picker {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
